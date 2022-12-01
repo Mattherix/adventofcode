@@ -22,7 +22,17 @@ fn extract(path: &str) -> Vec<Vec<i32>> {
     lines
 }
 
-pub fn solve() {
+pub fn solve() -> (usize, i32) {
     let data = extract("inputs/day1.txt");
-    println!("{:?}", data);
+    
+    let calories: Vec<i32> = data.iter().map(|elf| elf.iter().sum()).collect();
+
+    let max = calories
+        .iter()
+        .enumerate()
+        .map(|(index, calories)| (calories, index))
+        .max()
+        .unwrap();
+    
+    (max.1, *max.0)
 }
