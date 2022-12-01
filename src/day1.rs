@@ -22,17 +22,30 @@ fn extract(path: &str) -> Vec<Vec<i32>> {
     lines
 }
 
-pub fn solve() -> (usize, i32) {
+pub fn solve() -> (i32, i32, i32) {
     let data = extract("inputs/day1.txt");
     
-    let calories: Vec<i32> = data.iter().map(|elf| elf.iter().sum()).collect();
+    let elves: Vec<i32> = data.iter().map(|elf| elf.iter().sum()).collect();
 
-    let max = calories
-        .iter()
-        .enumerate()
-        .map(|(index, calories)| (calories, index))
-        .max()
-        .unwrap();
-    
-    (max.1, *max.0)
+    let mut first = 0;
+    let mut second = 0;
+    let mut third = 0;
+    for calories in elves {
+        if calories > first {
+            third = second;
+            second = first;
+            first = calories;
+            continue;
+        }
+        if calories > second {
+            third = second;
+            second = calories;
+            continue;
+        }
+        if calories > third {
+            third = calories
+        }
+    }
+
+    (first, second, third)
 }
