@@ -33,8 +33,6 @@ fn extract<P: AsRef<Path>>(path: P) -> Result<Vec<(Move, Move)>, io::Error> {
         actions
     }).collect();
     
-    dbg!(&lines);
-
     Ok(lines)
 }
 
@@ -44,5 +42,37 @@ pub fn solve() -> i32 {
         Err(err) => panic!("We can't read from file, {}", err),
         Ok(data) => data
     };
-    0
+
+
+    let mut score = 0;
+    for action in data {
+        match action.1 {
+            Move::Rock => {
+                score += 1;
+                match action.0 {
+                    Move::Rock => score += 3,
+                    Move::Paper => {},
+                    Move::Scissors => score += 6
+                }
+            },
+            Move::Paper => {
+                score += 2;
+                match action.0 {
+                    Move::Rock => score += 6,
+                    Move::Paper => score += 3,
+                    Move::Scissors => {}
+                }
+            },
+            Move::Scissors => {
+                score += 3;
+                match action.0 {
+                    Move::Rock => {}
+                    Move::Paper => score += 6,
+                    Move::Scissors => score += 3
+                }
+            }
+        }
+    }
+
+    score
 }
