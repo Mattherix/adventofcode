@@ -1,17 +1,13 @@
 use std::fs::File;
-use std::io::Read;
+use std::io::{Read, self};
+use std::path::Path;
 
-fn extract(path: &str) -> Vec<Vec<i32>> {
-    let mut input = match File::open(path) {
-        Err(err) => panic!("couldn't open {}", err),
-        Ok(file) => file
-    };
+// Can panic (parse)
+fn extract<P: AsRef<Path>>(path: P) -> Result<Vec<Vec<i32>>, io::Error> {
+    let mut input = File::open(path)?;
 
     let mut s = String::new();
-    match input.read_to_string(&mut s) {
-        Err(err) => panic!("couldn't read {}", err),
-        Ok(_) => {}
-    };
+    input.read_to_string(&mut s)?;
 
     let lines: Vec<Vec<i32>> = s.trim().split("\n\n").map(|line| {
         line.split('\n').map(|number| {
@@ -19,17 +15,21 @@ fn extract(path: &str) -> Vec<Vec<i32>> {
         }).collect::<Vec<i32>>()
     }).collect();
     
-    lines
+    Ok(lines)
 }
 
 pub fn solve() -> (i32, i32, i32) {
-    let data = extract("inputs/day1.txt");
+    let filepath = "inputs/day2.txt";
+    let data = match extract(filepath) {
+        Err(err) => panic!("We can't read from file, {}", err),
+        Ok(data) => data
+    };
     
     let elves: Vec<i32> = data.iter().map(|elf| elf.iter().sum()).collect();
 
     let mut first = 0;
     let mut second = 0;
-    let mut third = 0;
+    let mut third = 0;  
     for calories in elves {
         if calories > first {
             third = second;
