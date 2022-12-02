@@ -36,7 +36,7 @@ fn extract<P: AsRef<Path>>(path: P) -> Result<Vec<(Move, Move)>, io::Error> {
     Ok(lines)
 }
 
-pub fn solve() -> i32 {
+pub fn solve() -> (i32, i32) {
     let filepath = "inputs/day2.txt";
     let data = match extract(filepath) {
         Err(err) => panic!("We can't read from file, {}", err),
@@ -45,7 +45,7 @@ pub fn solve() -> i32 {
 
 
     let mut score = 0;
-    for action in data {
+    for action in &data {
         match action.1 {
             Move::Rock => {
                 score += 1;
@@ -74,5 +74,36 @@ pub fn solve() -> i32 {
         }
     }
 
-    score
+    let mut score2 = 0;
+    for action in &data {
+        match action.1 {
+            // Need to lose
+            Move::Rock => {
+                match action.0 {
+                    Move::Rock => score2 += 3,
+                    Move::Paper => score2 += 1,
+                    Move::Scissors => score2 += 2
+                }
+            },
+            // Need to draw
+            Move::Paper => {
+                score2 += 3;
+                match action.0 {
+                    Move::Rock => score2 += 1,
+                    Move::Paper => score2 += 2,
+                    Move::Scissors => score2 += 3
+                }
+            },
+            // Need to win
+            Move::Scissors => {
+                score2 += 6;
+                match action.0 {
+                    Move::Rock => score2 += 2,
+                    Move::Paper => score2 += 3,
+                    Move::Scissors => score2 += 1
+                }
+            }
+        }
+    }
+    (score, score2)
 }
