@@ -21,3 +21,5 @@ jobs:
       run: cargo test --verbose
     - name: Run
       run: ./target/debug/adventofcode
+    - name: Run benchmark
+      run: cargo bench
