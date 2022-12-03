@@ -9,6 +9,7 @@ struct Rucksack {
     first_compartment: Vec<char>,
     second_compartment: Vec<char>
 }
+
 impl Rucksack {
     fn new(contents: &str) -> Self {
         let items: Vec<char> = contents.chars().collect();
@@ -27,6 +28,41 @@ impl Rucksack {
             }
         }
 
+        None
+    }
+
+    fn get_all_items(&self) -> Vec<char> {
+        [self.first_compartment.clone(), self.second_compartment.clone()].concat()
+    }
+}
+
+#[derive(Debug, Clone)]
+struct Group {
+    first_rucksack: Rucksack,
+    second_rucksack: Rucksack,
+    third_rucksack: Rucksack
+}
+
+impl Group {
+    fn new(first: Rucksack, second: Rucksack, third: Rucksack) -> Self {
+        Group {
+            first_rucksack: first,
+            second_rucksack: second,
+            third_rucksack: third
+        }
+    }
+    
+    fn find_badge(&self) -> Option<char> {
+        for first in self.first_rucksack.get_all_items() {
+            for second in self.second_rucksack.get_all_items() {
+                for third in self.third_rucksack.get_all_items() {
+                    if first == second && second == third {
+                        return Some(first);
+                    }
+                }
+            }
+        }
+        
         None
     }
 }
@@ -53,18 +89,29 @@ fn extract<P: AsRef<Path>>(path: P) -> Result<Vec<Rucksack>, io::Error> {
     Ok(lines)
 }
 
-pub fn solve() -> i32 {
-    let filepath = "inputs/day1.txt";
+pub fn solve() -> (i32, i32) {
     let data = extract("inputs/day3.txt")
         .expect("We can't read the file");
     
     let dictonary = create_dictionary();
 
     let mut priorities = 0;
-    for ruckstack in data {
+    for ruckstack in &data {
         let duplicate = ruckstack.find_duplicate_item().unwrap();
         priorities += dictonary[&duplicate] as i32;
     }
 
-    priorities
+    let slices: Vec<&[Rucksack]> = data.chunks(3).collect();
+    let mut badges = 0;
+    for chunks in slices {
+        let group = Group::new(
+            chunks[0].clone(),
+            chunks[1].clone(),
+            chunks[2].clone()
+        );
+        let badge = group.find_badge().unwrap();
+        badges += dictonary[&badge] as i32;
+    }
+
+    (priorities, badges)
 }

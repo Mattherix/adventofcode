@@ -12,5 +12,5 @@ fn main() {
     println!("The strategy guide as a score of {} and then {}", solution.0.clone(), solution.1.clone());
     */
     let solution = day3::solve();
-    println!("The sum of the priorities of those item is {}", solution);
+    println!("The sum of the priorities of those item and badges are {} and {}", solution.0, solution.1);
 }
