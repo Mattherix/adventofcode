@@ -19,7 +19,7 @@ fn extract<P: AsRef<Path>>(path: P) -> Result<Vec<Vec<i32>>, io::Error> {
 }
 
 pub fn solve() -> (i32, i32, i32) {
-    let filepath = "inputs/day2.txt";
+    let filepath = "inputs/day1.txt";
     let data = match extract(filepath) {
         Err(err) => panic!("We can't read from file, {}", err),
         Ok(data) => data
