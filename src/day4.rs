@@ -27,6 +27,13 @@ impl Range {
             false
         }
     }
+    fn is_overlapping_at_all(&self, possible_subset: Range) -> bool {
+        if self.higher_bound >= possible_subset.lower_bound && self.lower_bound <= possible_subset.higher_bound {
+            true
+        } else {
+            false
+        }
+    }
 }
 
 // Can panic (parse)
@@ -51,17 +58,21 @@ fn extract<P: AsRef<Path>>(path: P) -> Result<Vec<(Range, Range)>, io::Error> {
     Ok(ranges_pairs)
 }
 
-pub fn solve() -> i32 {
+pub fn solve() -> (i32, i32) {
     let filepath = "inputs/day4.txt";
     let data = extract(filepath)
         .expect("We can't read from file"); 
 
-    let mut pairs_count = 0;
+    let mut pairs_fully_contained = 0;
+    let mut pairs_overlapping_at_all = 0;
     for pair in data {
         if pair.0.is_fully_contained(pair.1) | pair.1.is_fully_contained(pair.0) {
-            pairs_count += 1;
+            pairs_fully_contained += 1;
+        }
+        if pair.0.is_overlapping_at_all(pair.1) | pair.1.is_overlapping_at_all(pair.0) {
+            pairs_overlapping_at_all += 1;
         }
     }
 
-    pairs_count
+    (pairs_fully_contained, pairs_overlapping_at_all)
 }

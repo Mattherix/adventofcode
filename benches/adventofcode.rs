@@ -22,6 +22,13 @@ pub fn criterion_benchmark(c: &mut Criterion) {
             b.iter(|| day3::solve())
         }
     );
+
+    c.bench_function(
+        "day 4",
+        |b| {
+            b.iter(|| day4::solve())
+        }
+    );
 }
 
 criterion_group!(benches, criterion_benchmark);

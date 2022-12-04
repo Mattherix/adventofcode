@@ -2,6 +2,7 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+
 fn main() {
     let solution = day1::solve();
     println!("The max calories is {}", solution.0);
@@ -14,6 +15,5 @@ fn main() {
     println!("The sum of the priorities of those item and badges are {} and {}", solution.0, solution.1);
 
     let solution = day4::solve();
-    println!("There are {} assignment pairs with one range fully containing the other", solution);
-
+    println!("There are {} fully contained and {} overlapping at all pairs", solution.0, solution.1);
 }
