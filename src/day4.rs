@@ -20,6 +20,13 @@ impl Range {
             higher_bound: bounds[1]
         }
     }
+    fn is_fully_contained(&self, possible_subset: Range) -> bool {
+        if self.lower_bound >= possible_subset.lower_bound && self.higher_bound <= possible_subset.higher_bound {
+            true
+        } else {
+            false
+        }
+    }
 }
 
 // Can panic (parse)
@@ -49,7 +56,12 @@ pub fn solve() -> i32 {
     let data = extract(filepath)
         .expect("We can't read from file"); 
 
-    dbg!(data);
+    let mut pairs_count = 0;
+    for pair in data {
+        if pair.0.is_fully_contained(pair.1) | pair.1.is_fully_contained(pair.0) {
+            pairs_count += 1;
+        }
+    }
 
-    0
+    pairs_count
 }
