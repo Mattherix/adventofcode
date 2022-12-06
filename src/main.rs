@@ -23,6 +23,6 @@ fn main() {
     println!("The top layer of crate is {} with a CrateMover 9000 and {} with a CrateMover 9001", solution.0, solution.1);
 
     let solution = day6::solve();
-    println!("We need to processed {} characters", solution.0);
+    println!("We need to processed {} and then {} characters", solution.0, solution.1);
 
 }

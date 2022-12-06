@@ -41,5 +41,16 @@ pub fn solve() -> (i32, i32) {
         marker += 1;
     }
 
-    (marker as i32, 0)
+    let mut previous = Vec::new();
+    let mut start_marker = 0;
+    
+    while previous.len() < 14 || has_duplicate(previous.clone()) {
+        previous.push(data[start_marker]);
+        if previous.len() > 14 {
+            previous.remove(0);
+        }
+        start_marker += 1;
+    }
+
+    (marker as i32, start_marker as i32)
 }
