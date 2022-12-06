@@ -107,14 +107,14 @@ fn extract<P: AsRef<Path>>(path: P) -> Result<(Vec<Stack<char>>, Vec<Instruction
     Ok((stacks, instructions))
 }
 
-pub fn solve() -> String {
+pub fn solve() -> (String, String) {
     let filepath = "inputs/day5.txt";
     let data = extract(filepath)
         .expect("We can't read from file"); 
     
-    let mut stacks = data.0;
+    let mut stacks = data.0.clone();
 
-    for instruction in data.1 {
+    for instruction in data.1.clone() {
         for _ in 0..instruction.quantity {
             if let Some(ship_crate) = stacks[instruction.from].pop() {
                 stacks[instruction.to].push(ship_crate);
@@ -122,12 +122,35 @@ pub fn solve() -> String {
         }
     }
 
-    let answer = stacks
+    let first_answer = stacks
         .iter_mut()
         .map(|stack| {
             stack.pop().unwrap()
         })
         .collect::<String>();
     
-    answer
+    let mut stacks = data.0;
+
+    for instruction in data.1 {
+        let mut ship_crates = Vec::new();
+        for _ in 0..instruction.quantity {
+            if let Some(ship_crate) = stacks[instruction.from].pop() {
+                ship_crates.push(ship_crate);
+            }
+        }
+        ship_crates.reverse();
+        
+        for ship_crate in ship_crates {
+            stacks[instruction.to].push(ship_crate);
+        }
+    }
+
+    let second_answer = stacks
+        .iter_mut()
+        .map(|stack| {
+            stack.pop().unwrap()
+        })
+        .collect::<String>();
+
+    (first_answer, second_answer)
 }

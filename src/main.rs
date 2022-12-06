@@ -19,5 +19,5 @@ fn main() {
     println!("There are {} fully contained and {} overlapping at all pairs", solution.0, solution.1);
 
     let solution = day5::solve();
-    println!("The top layer of crate is {}", solution);
+    println!("The top layer of crate is {} with a CrateMover 9000 and {} with a CrateMover 9001", solution.0, solution.1);
 }
