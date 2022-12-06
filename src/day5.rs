@@ -27,21 +27,24 @@ impl<T> Stack<T> {
     }
 
     fn pop(&mut self) -> Option<T> {
-        self.height -= 1;
-        self.stack.pop()        
+        if self.height > 0 {
+            self.stack.pop()
+        } else {
+            None
+        }
     }
 }
 
 #[derive(Debug, Clone)]
 struct Instruction {
     instruction: InstructionType,
-    from: u32,
-    to: u32,
+    from: usize,
+    to: usize,
     quantity: u32
 }
 
 impl Instruction {
-    fn new(instruction:InstructionType , from: u32, to: u32, quantity: u32) -> Self {
+    fn new(instruction:InstructionType , from: usize, to: usize, quantity: u32) -> Self {
         Instruction {
             instruction: instruction,
             from: from,
@@ -94,8 +97,8 @@ fn extract<P: AsRef<Path>>(path: P) -> Result<(Vec<Stack<char>>, Vec<Instruction
 
             Instruction::new(
                 InstructionType::Move,
-                parts[3].parse::<u32>().unwrap(),
-                parts[5].parse::<u32>().unwrap(),
+                parts[3].parse::<usize>().unwrap() - 1,
+                parts[5].parse::<usize>().unwrap() - 1,
                 parts[1].parse::<u32>().unwrap()
             )
         })
@@ -109,5 +112,22 @@ pub fn solve() -> String {
     let data = extract(filepath)
         .expect("We can't read from file"); 
     
-    String::from("")
+    let mut stacks = data.0;
+
+    for instruction in data.1 {
+        for _ in 0..instruction.quantity {
+            if let Some(ship_crate) = stacks[instruction.from].pop() {
+                stacks[instruction.to].push(ship_crate);
+            }
+        }
+    }
+
+    let answer = stacks
+        .iter_mut()
+        .map(|stack| {
+            stack.pop().unwrap()
+        })
+        .collect::<String>();
+    
+    answer
 }
