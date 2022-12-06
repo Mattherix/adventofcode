@@ -17,13 +17,13 @@ fn has_duplicate(list: Vec<char>) -> bool {
     let mut uniq = HashSet::new();
     
     for c in list {
-        if uniq.contains(&c) {
+        if !uniq.insert(c) {
             return true
         }
-        uniq.insert(c);
     }
     false
 }
+
 
 pub fn solve() -> (i32, i32) {
     let filepath = "inputs/day6.txt";
