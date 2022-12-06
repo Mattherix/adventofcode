@@ -2,6 +2,7 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 
 fn main() {
     let solution = day1::solve();
@@ -16,4 +17,7 @@ fn main() {
 
     let solution = day4::solve();
     println!("There are {} fully contained and {} overlapping at all pairs", solution.0, solution.1);
+
+    let solution = day5::solve();
+    println!("The top layer of crate is {}", solution);
 }
