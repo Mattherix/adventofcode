@@ -30,5 +30,16 @@ pub fn solve() -> (i32, i32) {
     let data = extract(filepath)
         .expect("We can't read from file"); 
 
-    (0, 0)
+    let mut previous = Vec::new();
+    let mut marker = 0;
+    
+    while previous.len() < 4 || has_duplicate(previous.clone()) {
+        previous.push(data[marker]);
+        if previous.len() > 4 {
+            previous.remove(0);
+        }
+        marker += 1;
+    }
+
+    (marker as i32, 0)
 }
