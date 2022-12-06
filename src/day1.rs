@@ -9,7 +9,7 @@ fn extract<P: AsRef<Path>>(path: P) -> Result<Vec<Vec<i32>>, io::Error> {
     let mut s = String::new();
     input.read_to_string(&mut s)?;
 
-    let lines: Vec<Vec<i32>> = s.trim().split("\n\n").map(|line| {
+    let lines  = s.trim().split("\n\n").map(|line| {
         line.split('\n').map(|number| {
             number.parse::<i32>().unwrap()
         }).collect::<Vec<i32>>()

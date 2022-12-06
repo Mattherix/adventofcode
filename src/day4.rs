@@ -2,6 +2,11 @@ use std::fs::File;
 use std::io::{Read, self};
 use std::path::Path;
 
+/*
+Is copy really useful ?
+It impact performance -> https://lafor.ge/rust/move/#move
+TODO: Remove Copy trait and borrow as much as possible
+*/
 #[derive(Debug, Clone, Copy)]
 struct Range {
     lower_bound: i32,

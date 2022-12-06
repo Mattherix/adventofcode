@@ -27,7 +27,7 @@ fn extract<P: AsRef<Path>>(path: P) -> Result<Vec<(Move, Move)>, io::Error> {
                 "Z" => return Move::Scissors,
                 _ => panic!("Can't parse the extracted file")
             }
-        }).collect::<Vec<Move>>();
+        }).collect();
         let actions: (Move, Move) = (actions[0].clone(), actions[1].clone());
 
         actions

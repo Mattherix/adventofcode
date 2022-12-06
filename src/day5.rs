@@ -8,7 +8,7 @@ struct Stack<T> {
     height: u32
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 enum InstructionType {
     Move
 }
