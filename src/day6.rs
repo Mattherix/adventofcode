@@ -13,7 +13,7 @@ fn extract<P: AsRef<Path>>(path: P) -> Result<Vec<char>, io::Error> {
     Ok(s.chars().collect())
 }
 
-fn has_duplicate(list: Vec<char>) -> bool {
+fn has_duplicate(list: &[char]) -> bool {
     let mut uniq = HashSet::new();
     
     for c in list {
@@ -30,27 +30,28 @@ pub fn solve() -> (i32, i32) {
     let data = extract(filepath)
         .expect("We can't read from file"); 
 
-    let mut previous = Vec::new();
-    let mut marker = 0;
-    
-    while previous.len() < 4 || has_duplicate(previous.clone()) {
-        previous.push(data[marker]);
-        if previous.len() > 4 {
-            previous.remove(0);
-        }
-        marker += 1;
-    }
 
-    let mut previous = Vec::new();
-    let mut start_marker = 0;
+    let marker: usize = data
+        .windows(4)
+        .enumerate()
+        .find_map(|(index, window)| {
+            if has_duplicate(window) {
+                None
+            } else {
+                Some(index)
+            }
+        }).unwrap() + 4;
     
-    while previous.len() < 14 || has_duplicate(previous.clone()) {
-        previous.push(data[start_marker]);
-        if previous.len() > 14 {
-            previous.remove(0);
-        }
-        start_marker += 1;
-    }
-
+    let start_marker: usize = data
+        .windows(14)
+        .enumerate()
+        .find_map(|(index, window)| {
+            if has_duplicate(window) {
+                None
+            } else {
+                Some(index)
+            }
+        }).unwrap() + 14;
+    
     (marker as i32, start_marker as i32)
 }
