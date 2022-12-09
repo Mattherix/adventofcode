@@ -15,5 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Cargo run test and benchmark
+    - name: Cargo run test
+      run: cargo test --release
+    - name: Cargo run benchmark
       run: cargo bench
