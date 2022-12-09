@@ -43,6 +43,13 @@ pub fn criterion_benchmark(c: &mut Criterion) {
             b.iter(|| day6::solve())
         }
     );
+
+    c.bench_function(
+        "day 7",
+        |b| {
+            b.iter(|| day7::solve("inputs/day7.txt"))
+        }
+    );
 }
 
 criterion_group!(benches, criterion_benchmark);

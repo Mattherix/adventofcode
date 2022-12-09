@@ -4,6 +4,7 @@ mod day3;
 mod day4;
 mod day5;
 mod day6;
+mod day7;
 
 fn main() {
     let solution = day1::solve();
@@ -24,5 +25,8 @@ fn main() {
 
     let solution = day6::solve();
     println!("We need to processed {} and then {} characters", solution.0, solution.1);
+
+    let solution = day7::solve("inputs/day7.txt");
+    println!("{} and {}", solution.0, solution.1);
 
 }
