@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Change directory to 2022
-      run: cd 2022/
     - name: Cargo run test
+      working-directory: ./2022
       run: cargo test --release
     - name: Cargo run benchmark
+      working-directory: ./2022
       run: cargo bench
